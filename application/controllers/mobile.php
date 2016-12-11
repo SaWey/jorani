@@ -27,7 +27,7 @@ class Mobile extends CI_Controller {
             $this->session->sess_create();
             $this->security->csrf_set_cookie();
             $salt = $this->generateRandomString(rand(5, 20));
-            $this->session->set_userdata('salt', $salt);
+            $this->session->salt = $salt;
             $security = new stdClass;
             $security->salt = $salt;
             $security->publicKey = file_get_contents('./assets/keys/public.pem', TRUE);
@@ -56,19 +56,19 @@ class Mobile extends CI_Controller {
             $privateKey = openssl_pkey_get_private($keyPEM);
             openssl_private_decrypt(base64_decode($this->input->get('password')), 
                                     $password, $privateKey, OPENSSL_PKCS1_OAEP_PADDING);
-            $len_salt = strlen($this->session->userdata('salt')) * (-1);
+            $len_salt = strlen($this->session->salt) * (-1);
             $password = substr($password, 0, $len_salt);
             $this->load->model('users_model');
             $loggedin = $this->users_model->checkCredentialsEmail($this->input->get('email'), $password);
             //Return user's details (some fields might be empty if not logged in)
             $userDetails = new stdClass;
-            $userDetails->id = $this->session->userdata('id');
-            $userDetails->firstname = $this->session->userdata('firstname');
-            $userDetails->lastname = $this->session->userdata('lastname');
-            $userDetails->isManager = $this->session->userdata('is_manager');
-            $userDetails->isAdmin = $this->session->userdata('is_admin');
-            $userDetails->isHR = $this->session->userdata('is_hr');
-            $userDetails->managerId = $this->session->userdata('manager');
+            $userDetails->id = $this->session->id;
+            $userDetails->firstname = $this->session->firstname;
+            $userDetails->lastname = $this->session->lastname;
+            $userDetails->isManager = $this->session->is_manager;
+            $userDetails->isAdmin = $this->session->is_admin;
+            $userDetails->isHR = $this->session->is_hr;
+            $userDetails->managerId = $this->session->manager;
             $userDetails->isLoggedIn = $loggedin;
             echo json_encode($userDetails);
         }
@@ -88,7 +88,7 @@ class Mobile extends CI_Controller {
             $notifications = new stdClass;
             $notifications->requestedLeavesCount = 0;
             $notifications->requestedExtraCount = 0;
-            if ($this->session->userdata('is_manager') === TRUE) {
+            if ($this->session->is_manager === TRUE) {
                 $this->load->model('leaves_model');
                 $notifications->requestedLeavesCount = $this->leaves_model->countLeavesRequestedToManager($this->input->get('employeeId'));
                 if ($this->config->item('disable_overtime') == FALSE) {

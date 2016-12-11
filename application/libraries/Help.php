@@ -27,8 +27,8 @@ class Help {
     public function __construct() {
         $this->CI = & get_instance();
         $this->CI->load->helper('language');
-        $this->CI->load->library('session');
-        $this->CI->lang->load('global', $this->CI->session->userdata('language'));
+        $this->CI->load->library('session/session.php');
+        $this->CI->lang->load('global', $this->CI->session->language);
     }
 
     /**

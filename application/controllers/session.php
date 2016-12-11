@@ -23,7 +23,7 @@ class Session extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->library('polyglot');
-        if ($this->session->userdata('language') === FALSE) {
+        if (!isset($_SESSION['language'])) {
             $availableLanguages = explode(",", $this->config->item('languages'));
             $languageCode = $this->polyglot->language2code($this->config->item('language'));
             if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
@@ -31,11 +31,11 @@ class Session extends CI_Controller {
                     $languageCode = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
                 }
             }
-            $this->session->set_userdata('language_code', $languageCode);
-            $this->session->set_userdata('language', $this->polyglot->code2language($languageCode));
+            $this->session->language_code = $languageCode;
+            $this->session->language = $this->polyglot->code2language($languageCode);
         }
-        $this->lang->load('session', $this->session->userdata('language'));
-        $this->lang->load('global', $this->session->userdata('language'));
+        $this->lang->load('session', $this->session->language);
+        $this->lang->load('global', $this->session->language);
     }
     
     /**
@@ -86,13 +86,13 @@ class Session extends CI_Controller {
         //Note that we don't receive the password as a clear string
         $this->form_validation->set_rules('login', lang('session_login_field_login'), 'required');
 
-        $data['last_page'] = $this->session->userdata('last_page');
+        $data['last_page'] = $this->session->last_page;
         if ($this->form_validation->run() === FALSE) {
             $data['public_key'] = file_get_contents('./assets/keys/public.pem', TRUE);
             $data['salt'] = $this->generateRandomString(rand(5, 20));
-            $data['language'] = $this->session->userdata('language');
-            $data['language_code'] = $this->session->userdata('language_code');
-            $this->session->set_userdata('salt', $data['salt']);
+            $data['language'] = $this->session->language;
+            $data['language_code'] = $this->session->language_code;
+            $this->session->salt = $data['salt'];
             $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
             $this->load->view('templates/header', $data);
             $this->load->view('session/login', $data);
@@ -100,8 +100,8 @@ class Session extends CI_Controller {
         } else {
             $this->load->model('users_model');
             //Set language
-            $this->session->set_userdata('language_code', $this->input->post('language'));
-            $this->session->set_userdata('language', $this->polyglot->code2language($this->input->post('language')));
+            $this->session->language_code = $this->input->post('language');
+            $this->session->language = $this->polyglot->code2language($this->input->post('language'));
             
             //Decipher the password value (RSA encoded -> base64 -> decode -> decrypt) and remove the salt!
             $password = '';
@@ -117,7 +117,7 @@ class Session extends CI_Controller {
                 $password = $rsa->decrypt(base64_decode($this->input->post('CipheredValue')));
             }
             //Remove the salt
-            $len_salt = strlen($this->session->userdata('salt')) * (-1);
+            $len_salt = strlen($this->session->salt) * (-1);
             $password = substr($password, 0, $len_salt);
             
             $loggedin = FALSE;
@@ -171,8 +171,8 @@ class Session extends CI_Controller {
      */
     public function language() {
         $this->load->helper('form');
-        $this->session->set_userdata('language_code', $this->input->get_post('language'));
-        $this->session->set_userdata('language', $this->polyglot->code2language($this->input->get_post('language')));
+        $this->session->language_code = $this->input->get_post('language');
+        $this->session->language = $this->polyglot->code2language($this->input->get_post('language'));
         if ($this->input->post('last_page') == FALSE) {
             $this->redirectToLastPage();
         } else {
@@ -189,14 +189,14 @@ class Session extends CI_Controller {
         if ($page!=="") {
             redirect($page);
         } else {
-            if ($this->session->userdata('last_page') != '') {
-                if (strpos($this->session->userdata('last_page'), 'index.php', strlen($this->session->userdata('last_page')) - strlen('index.php'))) {
-                    $this->session->set_userdata('last_page', base_url() . 'home');
+            if ($this->session->last_page != '') {
+                if (strpos($this->session->last_page, 'index.php', strlen($this->session->last_page) - strlen('index.php'))) {
+                    $this->session->last_page = base_url() . 'home';
                 }
-                if ($this->session->userdata('last_page_params') == '') {
-                    redirect($this->session->userdata('last_page'));
+                if ($this->session->last_page_params == '') {
+                    redirect($this->session->last_page);
                 } else {
-                    redirect($this->session->userdata('last_page') . '?' . $this->session->userdata('last_page_params'));
+                    redirect($this->session->last_page . '?' . $this->session->last_page_params);
                 }
             } else {
                 redirect(base_url() . 'home');
@@ -339,11 +339,11 @@ class Session extends CI_Controller {
         $paramters = array();
         $nameId = null;
         $sessionIndex = null;
-        if ($this->session->userdata("samlNameId") !== FALSE) {
-            $nameId = $this->session->userdata("samlNameId");
+        if ($this->session->samlNameId !== FALSE) {
+            $nameId = $this->session->samlNameId;
         }
-        if ($this->session->userdata("samlSessionIndex") !== FALSE) {
-            $sessionIndex = $this->session->userdata("samlSessionIndex");
+        if ($this->session->samlSessionIndex !== FALSE) {
+            $sessionIndex = $this->session->samlSessionIndex;
         }
         $auth->logout($returnTo, $paramters, $nameId, $sessionIndex);
         $this->session->sess_destroy();
@@ -358,8 +358,8 @@ class Session extends CI_Controller {
         require_once APPPATH . 'third_party/SAML/_toolkit_loader.php';
         require_once APPPATH . 'config/saml.php';
         $auth = new OneLogin_Saml2_Auth($settingsInfo);
-        if (isset($this->session) && ($this->session->userdata("LogoutRequestID") !== FALSE)) {
-            $requestID = $this->session->userdata("LogoutRequestID");
+        if (isset($this->session) && ($this->session->LogoutRequestID !== FALSE)) {
+            $requestID = $this->session->LogoutRequestID;
         } else {
             $requestID = null;
         }
@@ -381,8 +381,8 @@ class Session extends CI_Controller {
         require_once APPPATH . 'third_party/SAML/_toolkit_loader.php';
         require_once APPPATH . 'config/saml.php';
         $auth = new OneLogin_Saml2_Auth($settingsInfo);
-        if (isset($this->session) && ($this->session->userdata("AuthNRequestID") !== FALSE)) {
-            $requestID = $this->session->userdata("AuthNRequestID");
+        if (isset($this->session) && ($this->session->AuthNRequestID !== FALSE)) {
+            $requestID = $this->session->AuthNRequestID;
         } else {
             $requestID = null;
         }
@@ -395,10 +395,11 @@ class Session extends CI_Controller {
 
         $loggedin = FALSE;
         if ($auth->isAuthenticated()) {
-        $this->session->set_userdata("samlUserdata", $auth->getAttributes());
-        $this->session->set_userdata("samlNameId", $auth->getNameId());
-        $this->session->set_userdata("samlSessionIndex", $auth->getSessionIndex());
-        $this->session->unset_userdata('AuthNRequestID');
+        $this->session->samlUserdata = $auth->getAttributes();
+        $this->session->samlNameId = $auth->getNameId();
+        $this->session->samlSessionIndex = $auth->getSessionIndex();
+        unset($_SESSION['AuthNRequestID']);
+        $this->session->unset_userdata('');
             //If we find the e-mail address into the database, we're good
             $attributes = $auth->getAttributes();
             $this->load->model('users_model');
@@ -410,8 +411,8 @@ class Session extends CI_Controller {
             if ($loggedin === FALSE) {
                 $data['title'] = lang('session_login_title');
                 $data['help'] = $this->help->create_help_link('global_link_doc_page_login');
-                $data['language'] = $this->session->userdata('language');
-                $data['language_code'] = $this->session->userdata('language_code');
+                $data['language'] = $this->session->language;
+                $data['language_code'] = $this->session->language_code;
                 $data['message'] = lang('session_login_flash_account_disabled');
                 $this->load->view('templates/header', $data);
                 $this->load->view('session/failure', $data);

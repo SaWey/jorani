@@ -47,7 +47,7 @@ class Auth {
             
             //Admin functions
             case 'purge_database' :
-                if ($this->CI->session->userdata('is_hr') == true)
+                if ($this->CI->session->is_hr == true)
                     if ($this->CI->config->item('enable_purge') == true)
                         return true;
                     else
@@ -66,7 +66,7 @@ class Auth {
             case 'update_user' :
             case 'import_user' :
             case 'export_user' :
-                if ($this->CI->session->userdata('is_hr') == true)
+                if ($this->CI->session->is_hr == true)
                     return true;
                 else
                     return false;
@@ -74,10 +74,10 @@ class Auth {
 
             //Password management
             case 'change_password' :
-                if ($this->CI->session->userdata('is_hr') == true)
+                if ($this->CI->session->is_hr == true)
                     return true;
                 else {//a user can change its own password
-                    if ($this->CI->session->userdata('id') == $object_id)
+                    if ($this->CI->session->id == $object_id)
                         return true;
                     else
                         return false;
@@ -103,7 +103,7 @@ class Auth {
             case 'calendar_contract' :
             case 'adddayoff_contract' :
             case 'deletedayoff_contract' :
-                if ($this->CI->session->userdata('is_hr') == true)
+                if ($this->CI->session->is_hr == true)
                     return true;
                 else
                     return false;
@@ -113,7 +113,7 @@ class Auth {
             case 'native_report_leaves':
             case 'report_list' :
             case 'report_execute' :
-                if ($this->CI->session->userdata('is_hr') == true)
+                if ($this->CI->session->is_hr == true)
                     return true;
                 else
                     return false;
@@ -129,14 +129,14 @@ class Auth {
             case 'entitleddays_user_delete' :
             case 'entitleddays_contract' :
             case 'entitleddays_contract_delete' :
-                if ($this->CI->session->userdata('is_hr') == true)
+                if ($this->CI->session->is_hr == true)
                     return true;
                 else
                     return false;
                 break;
 
             case 'organization_index' :
-                if ($this->CI->session->userdata('is_hr') == true)
+                if ($this->CI->session->is_hr == true)
                     return true;
                 else
                     return false;
@@ -213,8 +213,8 @@ class Auth {
         if (!$this->isAllowed($operation, $object_id)) {
             $this->CI->load->helper('url');
             $this->CI->load->helper('language');
-            $this->CI->lang->load('global', $this->CI->session->userdata('language'));
-            log_message('error', 'User #' . $this->CI->session->userdata('id') . ' illegally tried to access to ' . $operation);
+            $this->CI->lang->load('global', $this->CI->session->language);
+            log_message('error', 'User #' . $this->CI->session->id . ' illegally tried to access to ' . $operation);
             $this->CI->session->set_flashdata('msg', sprintf(lang('global_msg_error_forbidden'), $operation));
             redirect('forbidden');
         }

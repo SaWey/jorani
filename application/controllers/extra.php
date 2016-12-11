@@ -153,7 +153,7 @@ class Extra extends CI_Controller {
         //If the user is not its own manager and if the overtime is 
         //already requested, the employee can't modify it
         if (!$this->is_hr) {
-            if (($this->session->userdata('manager') != $this->user_id) &&
+            if (($this->session->manager != $this->user_id) &&
                     $data['extra']['status'] != 1) {
                 log_message('error', 'User #' . $this->user_id . ' illegally tried to edit overtime request #' . $id);
                 $this->session->set_flashdata('msg', lang('extra_edit_msg_error'));

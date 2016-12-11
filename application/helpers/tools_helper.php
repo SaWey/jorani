@@ -18,10 +18,10 @@ if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
 function setUserContext(CI_Controller $controller) {
     //Memorize the last displayed page except for Ajax queries
     if (filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH') !== 'XMLHttpRequest') {
-        $controller->session->set_userdata('last_page', current_url());
-        $controller->session->set_userdata('last_page_params', $_SERVER['QUERY_STRING']);
+        $controller->session->last_page = current_url();
+        $controller->session->last_page_params = $_SERVER['QUERY_STRING'];
     }
-    if (!$controller->session->userdata('logged_in')) {
+    if (!$controller->session->logged_in) {
         //Test if the expired session was detected while responding to an Ajax request
         if (filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH') === 'XMLHttpRequest') {
             $controller->output->set_status_header('401');
@@ -29,15 +29,15 @@ function setUserContext(CI_Controller $controller) {
             redirect('session/login');
         }
     }
-    $controller->fullname = $controller->session->userdata('firstname') . ' ' .
-            $controller->session->userdata('lastname');
-    $controller->is_manager = $controller->session->userdata('is_manager');
-    $controller->is_admin = $controller->session->userdata('is_admin');
-    $controller->is_hr = $controller->session->userdata('is_hr');
-    $controller->user_id = $controller->session->userdata('id');
-    $controller->manager = $controller->session->userdata('manager');
-    $controller->language = $controller->session->userdata('language');
-    $controller->language_code = $controller->session->userdata('language_code');
+    $controller->fullname = $controller->session->firstname . ' ' .
+            $controller->session->lastname;
+    $controller->is_manager = $controller->session->is_manager;
+    $controller->is_admin = $controller->session->is_admin;
+    $controller->is_hr = $controller->session->is_hr;
+    $controller->user_id = $controller->session->id;
+    $controller->manager = $controller->session->manager;
+    $controller->language = $controller->session->language;
+    $controller->language_code = $controller->session->language_code;
 }
 
 /**
@@ -53,8 +53,8 @@ function getUserContext(CI_Controller $controller)
     $data['is_admin'] = $controller->is_admin;
     $data['is_hr'] = $controller->is_hr;
     $data['user_id'] =  $controller->user_id;
-    $data['language'] = $controller->session->userdata('language');
-    $data['language_code'] =  $controller->session->userdata('language_code');
+    $data['language'] = $controller->session->language;
+    $data['language_code'] =  $controller->session->language_code;
     if ($controller->is_manager === TRUE) {
         $controller->load->model('leaves_model');
         $data['requested_leaves_count'] = $controller->leaves_model->countLeavesRequestedToManager($controller->user_id);
