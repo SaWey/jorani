@@ -423,7 +423,7 @@ class Leaves_model extends CI_Model {
         //Trace the modification if the feature is enabled
         if ($this->config->item('enable_history') == TRUE) {
             $this->load->model('history_model');
-            $this->history_model->setHistory(1, 'leaves', $newId, $this->session->userdata('id'));
+            $this->history_model->setHistory(1, 'leaves', $newId, $this->session->id);
         }
         
         return $newId;
@@ -511,7 +511,7 @@ class Leaves_model extends CI_Model {
         //Trace the modification if the feature is enabled
         if ($this->config->item('enable_history') == TRUE) {
             $this->load->model('history_model');
-            $this->history_model->setHistory(1, 'leaves', $newId, $this->session->userdata('id'));
+            $this->history_model->setHistory(1, 'leaves', $newId, $this->session->id);
         }
         return $newId;
     }
@@ -538,7 +538,7 @@ class Leaves_model extends CI_Model {
         //Trace the modification if the feature is enabled
         if ($this->config->item('enable_history') == TRUE) {
             $this->load->model('history_model');
-            $this->history_model->setHistory(2, 'leaves', $id, $this->session->userdata('id'));
+            $this->history_model->setHistory(2, 'leaves', $id, $this->session->id);
         }
     }
     
@@ -558,7 +558,7 @@ class Leaves_model extends CI_Model {
         //Trace the modification if the feature is enabled
         if ($this->config->item('enable_history') == TRUE) {
             $this->load->model('history_model');
-            $this->history_model->setHistory(2, 'leaves', $id, $this->session->userdata('id'));
+            $this->history_model->setHistory(2, 'leaves', $id, $this->session->id);
         }
         
         return $affectedRows;
@@ -580,7 +580,7 @@ class Leaves_model extends CI_Model {
         //Trace the modification if the feature is enabled
         if ($this->config->item('enable_history') == TRUE) {
             $this->load->model('history_model');
-            $this->history_model->setHistory(2, 'leaves', $id, $this->session->userdata('id'));
+            $this->history_model->setHistory(2, 'leaves', $id, $this->session->id);
         }
         
         return $affectedRows;
@@ -596,7 +596,7 @@ class Leaves_model extends CI_Model {
         //Trace the modification if the feature is enabled
         if ($this->config->item('enable_history') == TRUE) {
             $this->load->model('history_model');
-            $this->history_model->setHistory(3, 'leaves', $id, $this->session->userdata('id'));
+            $this->history_model->setHistory(3, 'leaves', $id, $this->session->id);
         }
         return $this->db->delete('leaves', array('id' => $id));
     }
@@ -627,7 +627,7 @@ class Leaves_model extends CI_Model {
             $leaves = $this->getLeavesOfEmployee($employee);
             //TODO in fact, should we cascade delete ?
             foreach ($leaves as $leave) {
-                $this->history_model->setHistory(3, 'leaves', $leave['id'], $this->session->userdata('id'));   
+                $this->history_model->setHistory(3, 'leaves', $leave['id'], $this->session->id);
             }
         }
         return $this->db->delete('leaves', array('employee' => $employee));
@@ -1059,11 +1059,11 @@ class Leaves_model extends CI_Model {
         $children = filter_var($children, FILTER_VALIDATE_BOOLEAN);
         //If no entity was selected, select the entity of the connected user or the root of the organization
         if ($entity == -1) {
-            if (!$this->session->userdata('logged_in')) {
+            if (!$this->session->logged_in) {
                 $entity = 0;
             } else {
                 $this->load->model('users_model');
-                $user = $this->users_model->getUsers($this->session->userdata('id'));
+                $user = $this->users_model->getUsers($this->session->id);
                 $entity = $user['organization'];
             }
         }

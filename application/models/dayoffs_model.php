@@ -175,7 +175,7 @@ class Dayoffs_model extends CI_Model {
      * @return array list of days off
      */
     public function listOfDaysOffBetweenDates($employee, $start, $end) {
-        $this->lang->load('calendar', $this->session->userdata('language'));
+        $this->lang->load('calendar', $this->session->language);
         $this->db->select('dayoffs.*');
         $this->db->join('dayoffs', 'users.contract = dayoffs.contract');
         $this->db->where('users.id', $employee);
@@ -279,7 +279,7 @@ class Dayoffs_model extends CI_Model {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function userDayoffs($user_id, $start = "", $end = "") {
-        $this->lang->load('calendar', $this->session->userdata('language'));
+        $this->lang->load('calendar', $this->session->language);
         $this->db->select('dayoffs.*');
         $this->db->join('dayoffs', 'users.contract = dayoffs.contract');
         $this->db->where('users.id', $user_id);
@@ -340,7 +340,7 @@ class Dayoffs_model extends CI_Model {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function allDayoffs($start, $end, $entity_id, $children) {
-        $this->lang->load('calendar', $this->session->userdata('language'));
+        $this->lang->load('calendar', $this->session->language);
         
         $this->db->select('dayoffs.*, contracts.name');
         $this->db->distinct();

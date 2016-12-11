@@ -40,7 +40,7 @@ class Leaves extends CI_Controller {
         $this->auth->checkIfOperationIsAllowed('list_leaves');
         $data = getUserContext($this);
         $this->lang->load('datatable', $this->language);
-        $data['leaves'] = $this->leaves_model->getLeavesOfEmployee($this->session->userdata('id'));
+        $data['leaves'] = $this->leaves_model->getLeavesOfEmployee($this->session->id);
         $data['title'] = lang('leaves_index_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_leave_requests_list');
         $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
@@ -166,7 +166,7 @@ class Leaves extends CI_Controller {
         
         if ($this->form_validation->run() === FALSE) {
             $this->load->model('contracts_model');
-            $leaveTypesDetails = $this->contracts_model->getLeaveTypesDetailsOTypesForUser($this->session->userdata('id'));
+            $leaveTypesDetails = $this->contracts_model->getLeaveTypesDetailsOTypesForUser($this->session->id);
             $data['defaultType'] = $leaveTypesDetails->defaultType;
             $data['credit'] = $leaveTypesDetails->credit;
             $data['types'] = $leaveTypesDetails->types;
@@ -178,7 +178,7 @@ class Leaves extends CI_Controller {
             if (function_exists('triggerCreateLeaveRequest')) {
                 triggerCreateLeaveRequest($this);
             }
-            $leave_id = $this->leaves_model->setLeaves($this->session->userdata('id'));
+            $leave_id = $this->leaves_model->setLeaves($this->session->id);
             $this->session->set_flashdata('msg', lang('leaves_create_flash_msg_success'));
             //If the status is requested, send an email to the manager
             if ($this->input->post('status') == 2) {
@@ -208,7 +208,7 @@ class Leaves extends CI_Controller {
         //If the user is not its own manager and if the leave is 
         //already requested, the employee can't modify it
         if (!$this->is_hr) {
-            if (($this->session->userdata('manager') != $this->user_id) &&
+            if (($this->session->manager != $this->user_id) &&
                     $data['leave']['status'] != 1) {
                 if ($this->config->item('edit_rejected_requests') == FALSE ||
                     $data['leave']['status'] != 4) {//Configuration switch that allows editing the rejected leave requests
@@ -235,7 +235,7 @@ class Leaves extends CI_Controller {
             $data['help'] = $this->help->create_help_link('global_link_doc_page_request_leave');
             $data['id'] = $id;
             $this->load->model('contracts_model');
-            $leaveTypesDetails = $this->contracts_model->getLeaveTypesDetailsOTypesForUser($this->session->userdata('id'), $data['leave']['type']);
+            $leaveTypesDetails = $this->contracts_model->getLeaveTypesDetailsOTypesForUser($this->session->id, $data['leave']['type']);
             $data['defaultType'] = $leaveTypesDetails->defaultType;
             $data['credit'] = $leaveTypesDetails->credit;
             $data['types'] = $leaveTypesDetails->types;
@@ -501,9 +501,9 @@ class Leaves extends CI_Controller {
         header("Content-Type: application/json");
         $start = $this->input->get('start', TRUE);
         $end = $this->input->get('end', TRUE);
-        if ($id == 0) $id =$this->session->userdata('id');
+        if ($id == 0) $id =$this->session->id;
         echo $this->leaves_model->individual($id, $start, $end);
-    }
+   }
 
     /**
      * Ajax endpoint : Send a list of fullcalendar events
@@ -513,7 +513,7 @@ class Leaves extends CI_Controller {
         header("Content-Type: application/json");
         $start = $this->input->get('start', TRUE);
         $end = $this->input->get('end', TRUE);
-        echo $this->leaves_model->workmates($this->session->userdata('manager'), $start, $end);
+        echo $this->leaves_model->workmates($this->session->manager, $start, $end);
     }
     
     /**

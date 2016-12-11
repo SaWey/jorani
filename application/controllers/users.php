@@ -191,7 +191,7 @@ class Users extends CI_Controller {
         } else {
             $this->users_model->deleteUser($id);
         }
-        log_message('error', 'User #' . $id . ' has been deleted by user #' . $this->session->userdata('id'));
+        log_message('error', 'User #' . $id . ' has been deleted by user #' . $this->session->id);
         $this->session->set_flashdata('msg', lang('users_delete_flash_msg_success'));
         redirect('users');
     }

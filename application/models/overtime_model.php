@@ -66,7 +66,7 @@ class Overtime_model extends CI_Model {
     public function setExtra() {
         $data = array(
             'date' => $this->input->post('date'),
-            'employee' => $this->session->userdata('id'),
+            'employee' => $this->session->id,
             'duration' => $this->input->post('duration'),
             'cause' => $this->input->post('cause'),
             'status' => $this->input->post('status')

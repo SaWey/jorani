@@ -170,7 +170,7 @@ class Calendar extends CI_Controller {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function organization() {
-        if (($this->config->item('public_calendar') == TRUE) && (!$this->session->userdata('logged_in'))) {
+        if (($this->config->item('public_calendar') == TRUE) && (!$this->session->logged_in)) {
             $this->load->library('polyglot');;
             $data['language'] = $this->config->item('language');
             $data['language_code'] =  $this->polyglot->language2code($data['language']);
@@ -243,7 +243,7 @@ class Calendar extends CI_Controller {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function tabular($id=-1, $month=0, $year=0, $children=TRUE) {
-        if (($this->config->item('public_calendar') == TRUE) && (!$this->session->userdata('logged_in'))) {
+        if (($this->config->item('public_calendar') == TRUE) && (!$this->session->logged_in)) {
             $this->load->library('polyglot');
             $data['language'] = $this->config->item('language');
             $data['language_code'] =  $this->polyglot->language2code($data['language']);
@@ -296,7 +296,7 @@ class Calendar extends CI_Controller {
      */
     public function exportTabular($id=-1, $month=0, $year=0, $children=TRUE) {        
         //Load the language file (the loaded language depends if it was called from the public view)
-        if (($this->config->item('public_calendar') == TRUE) && (!$this->session->userdata('logged_in'))) {
+        if (($this->config->item('public_calendar') == TRUE) && (!$this->session->logged_in)) {
             $this->load->library('polyglot');;
             $language = $this->config->item('language');
         } else {

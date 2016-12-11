@@ -7,10 +7,10 @@
  * @since         0.1.0
  */
 ?>
-<?php if($this->session->flashdata('msg')){ ?>
+<?php if( isset($_SESSION['msg']) ){ ?>
 <div class="alert fade in" id="flashbox">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
-  <?php echo $this->session->flashdata('msg'); ?>
+  <?php echo $_SESSION['msg']; ?>
 </div>
  
 <script type="text/javascript">

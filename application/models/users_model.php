@@ -433,18 +433,15 @@ class Users_model extends CI_Model {
                 $isManager = TRUE;
         }
 
-        $newdata = array(
-            'login' => $row->login,
-            'id' => $row->id,
-            'firstname' => $row->firstname,
-            'lastname' => $row->lastname,
-            'is_manager' => $isManager,
-            'is_admin' => $is_admin,
-            'is_hr' => $is_hr,
-            'manager' => $row->manager,
-            'logged_in' => TRUE
-        );
-        $this->session->set_userdata($newdata);
+        $_SESSION['login'] = $row->login;
+        $_SESSION['id'] = $row->id;
+        $_SESSION['firstname'] = $row->firstname;
+        $_SESSION['lastname'] = $row->lastname;
+        $_SESSION['is_manager'] = $isManager;
+        $_SESSION['is_admin'] = $is_admin;
+        $_SESSION['is_hr'] = $is_hr;
+        $_SESSION['manager'] = $row->manager;
+        $_SESSION['logged_in'] = TRUE;
     }
 
     /**
