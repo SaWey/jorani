@@ -39,7 +39,7 @@ class Types_model extends CI_Model {
     
     /**
      * Get the list of types as an ordered associative array
-     * @return array Associative array of types (id, name)
+     * @return array Associative array of types (id, name, color)
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function getTypesAsArray($id = 0) {
@@ -48,7 +48,10 @@ class Types_model extends CI_Model {
         $this->db->order_by('name');
         $rows = $this->db->get()->result_array();
         foreach ($rows as $row) {
-            $listOfTypes[$row['id']] = $row['name'];
+            $listOfTypes[$row['id']] = [
+                'name' => $row['name'],
+                'color' => $row['color']
+                ];
         }
         return $listOfTypes;
     }
@@ -70,9 +73,10 @@ class Types_model extends CI_Model {
      * @return int number of affected rows
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function setTypes($name) {
+    public function setTypes($name, $color) {
         $data = array(
-            'name' => $this->input->post('name')
+            'name' => $this->input->post('name'),
+            'color' => $this->input->post('color')
         );
         return $this->db->insert('types', $data);
     }
@@ -93,9 +97,10 @@ class Types_model extends CI_Model {
      * @return int number of affected rows
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function updateTypes($id, $name) {
+    public function updateTypes($id, $name, $color) {
         $data = array(
-            'name' => $name
+            'name' => $name,
+            'color' => $color
         );
         $this->db->where('id', $id);
         return $this->db->update('types', $data);

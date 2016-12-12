@@ -12,7 +12,9 @@
 echo form_open('leavetypes/edit/' . $id, $attributes); ?>
     <input type="hidden" name="id" value="<?php echo $id; ?>" />
     <label for="name"><?php echo lang('leavetypes_popup_update_field_name');?></label>
-    <input type="text" name="name" id="name" value="<?php echo $type_name; ?>" />
+    <input type="text" name="name" id="name" value="<?php echo $type_name; ?>" /><br>
+    <label for="color"><?php echo lang('leavetypes_popup_update_field_color');?></label>
+    <input type="color" name="color" id="color" value="<?php echo $type_color; ?>" />
     <br />
 </form>
 <button id="cmdEditLeaveType" class="btn btn-primary"><?php echo lang('leavetypes_popup_update_button_update');?></button>

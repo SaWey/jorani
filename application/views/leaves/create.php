@@ -24,8 +24,8 @@ echo form_open('leaves/create', $attributes) ?>
         &nbsp;<span class="muted" id="lblCredit"><?php if (!is_null($credit)) { ?>(<?php echo $credit; ?>)<?php } ?></span>
     </label>
     <select class="input-xxlarge" name="type" id="type">
-    <?php foreach ($types as $typeId => $TypeName): ?>
-        <option value="<?php echo $typeId; ?>" <?php if ($typeId == $defaultType) echo "selected"; ?>><?php echo $TypeName; ?></option>
+    <?php foreach ($types as $typeId => $Type): ?>
+        <option value="<?php echo $typeId; ?>" <?php if ($typeId == $defaultType) echo "selected"; ?>><?php echo $Type['name']; ?></option>
     <?php endforeach ?>
     </select>
         

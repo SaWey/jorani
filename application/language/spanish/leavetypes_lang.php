@@ -25,12 +25,14 @@ $lang['leavetypes_popup_create_title'] = 'Añade un tipo de permiso';
 $lang['leavetypes_popup_create_button_cancel'] = 'Cancelar';
 $lang['leavetypes_popup_create_button_create'] = 'Crear';
 $lang['leavetypes_popup_create_field_name'] = 'Nombre';
+$lang['leavetypes_popup_create_field_color'] = 'Color';
 $lang['leavetypes_popup_create_flash_msg'] = 'El tipo de permiso ha sido creado correctamente.';
 
 $lang['leavetypes_popup_update_title'] = 'Editar un tipo de permiso';
 $lang['leavetypes_popup_update_button_cancel'] = 'Cancelar';
 $lang['leavetypes_popup_update_button_update'] = 'Modificar';
 $lang['leavetypes_popup_update_field_name'] = 'Nombre';
+$lang['leavetypes_popup_update_field_color'] = 'Color';
 $lang['leavetypes_popup_update_flash_msg'] = 'El tipo de permiso ha sido modificado correctamente.';
 
 $lang['leavetypes_popup_delete_title'] = 'Borrar el tipo de permiso';
@@ -45,3 +47,4 @@ $lang['leavetypes_popup_delete_flash_forbidden'] = 'No se puede eliminar un tipo
 $lang['leavetypes_type_export_title'] = 'Tipos de permisos';
 $lang['leavetypes_type_export_thead_id'] = 'ID';
 $lang['leavetypes_type_export_thead_name'] = 'Nombre';
+$lang['leavetypes_type_export_thead_color'] = 'Color';

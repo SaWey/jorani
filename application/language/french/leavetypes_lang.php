@@ -24,12 +24,14 @@ $lang['leavetypes_popup_create_title'] = 'Ajouter un type d\'absence';
 $lang['leavetypes_popup_create_button_cancel'] = 'Annuler';
 $lang['leavetypes_popup_create_button_create'] = 'Créer';
 $lang['leavetypes_popup_create_field_name'] = 'Nom';
+$lang['leavetypes_popup_create_field_color'] = 'Color';
 $lang['leavetypes_popup_create_flash_msg'] = 'Le type d\'absence a été créé avec succès.';
 
 $lang['leavetypes_popup_update_title'] = 'Modifier un type d\'absence';
 $lang['leavetypes_popup_update_button_cancel'] = 'Annuler';
 $lang['leavetypes_popup_update_button_update'] = 'Modifier';
 $lang['leavetypes_popup_update_field_name'] = 'Nom';
+$lang['leavetypes_popup_update_field_color'] = 'Color';
 $lang['leavetypes_popup_update_flash_msg'] = 'Le type d\'absence a été modifié avec succès.';
 
 $lang['leavetypes_popup_delete_title'] = 'Supprimer un type d\'absence';
@@ -44,3 +46,4 @@ $lang['leavetypes_popup_delete_flash_forbidden'] = 'Vous ne pouvez pas supprimer
 $lang['leavetypes_type_export_title'] = 'Types d\'absence';
 $lang['leavetypes_type_export_thead_id'] = 'N°';
 $lang['leavetypes_type_export_thead_name'] = 'Nom';
+$lang['leavetypes_type_export_thead_color'] = 'Color';

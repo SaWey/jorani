@@ -25,12 +25,14 @@ $lang['leavetypes_popup_create_title'] = 'Voeg een afwezigheidstype toe';
 $lang['leavetypes_popup_create_button_cancel'] = 'Annuleren';
 $lang['leavetypes_popup_create_button_create'] = 'Aanmaken';
 $lang['leavetypes_popup_create_field_name'] = 'Naam';
+$lang['leavetypes_popup_create_field_color'] = 'Kleur';
 $lang['leavetypes_popup_create_flash_msg'] = 'Het afwezigheidstype is succesvol toegevoegd';
 
 $lang['leavetypes_popup_update_title'] = 'Bewerk afwezigheidstype';
 $lang['leavetypes_popup_update_button_cancel'] = 'Annuleren';
 $lang['leavetypes_popup_update_button_update'] = 'Bijwerken';
 $lang['leavetypes_popup_update_field_name'] = 'Naam';
+$lang['leavetypes_popup_update_field_color'] = 'Kleur';
 $lang['leavetypes_popup_update_flash_msg'] = 'Het afwezigheidstype is succesvol bijgewerkt';
 
 $lang['leavetypes_popup_delete_title'] = 'Verwijder afwezigheidstype';
@@ -45,3 +47,4 @@ $lang['leavetypes_popup_delete_flash_forbidden'] = 'U kunt een afwezigheidstype 
 $lang['leavetypes_type_export_title'] = 'Soort afwezigheid';
 $lang['leavetypes_type_export_thead_id'] = 'ID';
 $lang['leavetypes_type_export_thead_name'] = 'Naam';
+$lang['leavetypes_type_export_thead_color'] = 'Kleur';

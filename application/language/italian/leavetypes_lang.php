@@ -25,12 +25,14 @@ $lang['leavetypes_popup_create_title'] = 'Aggiungi una tipologia di ferie';
 $lang['leavetypes_popup_create_button_cancel'] = 'Annulla';
 $lang['leavetypes_popup_create_button_create'] = 'Crea';
 $lang['leavetypes_popup_create_field_name'] = 'Nome';
+$lang['leavetypes_popup_create_field_color'] = 'Color';
 $lang['leavetypes_popup_create_flash_msg'] = 'La tipologia di ferie è stata creata con successo';
 
 $lang['leavetypes_popup_update_title'] = 'Modifica una richiesta di ferie';
 $lang['leavetypes_popup_update_button_cancel'] = 'Annulla';
 $lang['leavetypes_popup_update_button_update'] = 'Aggiorna';
 $lang['leavetypes_popup_update_field_name'] = 'Nome';
+$lang['leavetypes_popup_update_field_color'] = 'Color';
 $lang['leavetypes_popup_update_flash_msg'] = 'La tipologia di ferie è stata aggiornata con successo.';
 
 $lang['leavetypes_popup_delete_title'] = 'Elimina tipologia ferie';
@@ -45,3 +47,4 @@ $lang['leavetypes_popup_delete_flash_forbidden'] = 'Non puoi eliminare una tipol
 $lang['leavetypes_type_export_title'] = 'Tipologia ferie';
 $lang['leavetypes_type_export_thead_id'] = 'ID';
 $lang['leavetypes_type_export_thead_name'] = 'Nome';
+$lang['leavetypes_type_export_thead_color'] = 'Color';

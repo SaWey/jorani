@@ -169,4 +169,20 @@ if (!function_exists('cal_days_in_month'))
 }
 
 if (!defined('CAL_GREGORIAN')) 
-    define('CAL_GREGORIAN', 1); 
+    define('CAL_GREGORIAN', 1);
+
+/**
+ * Get the css color code of the status
+ * @param $status_id
+ * @return string
+ */
+function getStatusColor($status_id){
+    $status_colors = [
+        1 => '#999',    // Planned
+        2 => '#f89406', // Requested
+        3 => '#468847', // Accepted
+        4 => '#ff0000'  // Rejected
+    ];
+    return $status_colors[$status_id];
+}
+

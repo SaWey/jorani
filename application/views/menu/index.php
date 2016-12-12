@@ -173,6 +173,9 @@ $this->lang->load('menu', $language);?>
                 <ul class="nav pull-right">
                     <a href="<?php echo base_url();?>users/myprofile" class="brand"><?php echo $fullname;?></a>
                     <li><a href="<?php echo base_url();?>users/myprofile" title="<?php echo lang('menu_banner_tip_myprofile');?>"><i class="icon-user icon-white"></i></a></li>
+                    <?php if(isset($_SESSION['enable_legend_color_toggle'])){?>
+                    <li><a href="#" id="cmdToggleLegend" title="Toggle Legend Colors"><i class="fa fa-tint"></i></a></li>
+                    <?php }?>
                     <?php if ($this->config->item('enable_mobile') != FALSE) { ?>
                     <li><a href="#" id="cmdGenerateQRCode" title="QR Code"><i class="fa fa-mobile"></i></a></li>
                     <?php } ?>

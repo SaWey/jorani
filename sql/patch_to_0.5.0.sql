@@ -15,6 +15,8 @@ ALTER TABLE `dayoffs` MODIFY `title` varchar(128) CHARACTER SET utf8;
 
 ALTER TABLE `users` MODIFY `language` varchar(5);
 
+ALTER TABLE `types` ADD `color` VARCHAR(7) NOT NULL DEFAULT '468847';;
+
 CREATE TABLE IF NOT EXISTS `leaves_history` (
   `id` int(11) NOT NULL,
   `startdate` date DEFAULT NULL,

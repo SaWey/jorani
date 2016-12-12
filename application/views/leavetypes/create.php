@@ -11,7 +11,9 @@
 <?php $attributes = array('id' => 'formCreateLeaveType');
 echo form_open('leavetypes/create', $attributes); ?>
     <label for="name"><?php echo lang('leavetypes_popup_create_field_name');?></label>
-    <input type="text" name="name" id="name" pattern=".{1,}" required />
+    <input type="text" name="name" id="name" pattern=".{1,}" required /><br>
+    <label for="color"><?php echo lang('leavetypes_popup_update_field_color');?></label>
+    <input type="color" name="color" id="color" value="#468847" required />
     <br />
 </form>
 <button id="cmdCreateLeaveType" class="btn btn-primary"><?php echo lang('leavetypes_popup_create_button_create');?></button>

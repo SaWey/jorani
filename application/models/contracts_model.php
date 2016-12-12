@@ -196,15 +196,18 @@ class Contracts_model extends CI_Model {
      */
     public function getListOfExcludedTypes($id) {
         $listOfTypes = array();
-        $this->db->select('types.id as id, types.name as name');
+        $this->db->select('types.id as id, types.name as name, types.color as color');
         $this->db->from('excluded_types');
         $this->db->join('types', 'excluded_types.type_id = types.id');
         $this->db->order_by("types.name", "asc");
         $this->db->where('excluded_types.contract_id', $id);
         $rows = $this->db->get()->result_array();
         foreach ($rows as $row) {
-            $listOfTypes[$row['id']] = $row['name'];
-        }        
+            $listOfTypes[$row['id']] = [
+                'name' => $row['name'],
+                'color' => $row['color']
+                ];
+        }
         return $listOfTypes;
     }
 
@@ -271,14 +274,14 @@ class Contracts_model extends CI_Model {
         $types = $this->types_model->getTypesAsArray();
         //Compute the credit of entitlment for the default leave type
         if (is_null($leaveType)) {
-            $credit = $this->leaves_model->getLeavesTypeBalanceForEmployee($userId, $types[$defaultType]);
+            $credit = $this->leaves_model->getLeavesTypeBalanceForEmployee($userId, $types[$defaultType]['name']);
         } else {
-            $credit = $this->leaves_model->getLeavesTypeBalanceForEmployee($userId, $types[$leaveType]);
+            $credit = $this->leaves_model->getLeavesTypeBalanceForEmployee($userId, $types[$leaveType]['name']);
         }
 
         //Filter this array by removing the excluded types
         $excludedTypes = $this->contracts_model->getListOfExcludedTypes($user['contract']);
-        $types = array_diff($types, $excludedTypes);
+        $types = array_diff_key($types, $excludedTypes);
 
         //Let's return an anonymous object containing all these details
         $leaveTypesDetails = new stdClass;

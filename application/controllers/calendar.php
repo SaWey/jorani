@@ -21,6 +21,7 @@ class Calendar extends CI_Controller {
      */
     public function __construct() {
         parent::__construct();
+        $this->session->set_flashdata('enable_legend_color_toggle', true);
         //This controller differs from the others, because some calendars can be public
     }
 
@@ -75,6 +76,8 @@ class Calendar extends CI_Controller {
             $data['help'] = $this->help->create_help_link('global_link_doc_page_calendar_yearly');
             $this->load->view('templates/header', $data);
             $this->load->view('menu/index', $data);
+            $this->load->model('types_model');
+            $data['legend'] = $this->load->view('templates/calendar_legend_tabs', ['types' => $this->types_model->getTypesAsArray()], true);
             $this->load->view('calendar/year', $data);
             $this->load->view('templates/footer');
     }    
@@ -96,6 +99,8 @@ class Calendar extends CI_Controller {
         $data['apiKey'] = 'key';
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
+        $this->load->model('types_model');
+        $data['legend'] = $this->load->view('templates/calendar_legend', ['types' => $this->types_model->getTypesAsArray()], true);
         $this->load->view('calendar/individual', $data);
         $this->load->view('templates/footer');
     }
@@ -115,6 +120,8 @@ class Calendar extends CI_Controller {
         $data['help'] = $this->help->create_help_link('global_link_doc_page_calendar_workmates');
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
+        $this->load->model('types_model');
+        $data['legend'] = $this->load->view('templates/calendar_legend', ['types' => $this->types_model->getTypesAsArray()], true);
         $this->load->view('calendar/workmates', $data);
         $this->load->view('templates/footer');
     }
@@ -133,6 +140,8 @@ class Calendar extends CI_Controller {
         $data['help'] = $this->help->create_help_link('global_link_doc_page_calendar_collaborators');
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
+        $this->load->model('types_model');
+        $data['legend'] = $this->load->view('templates/calendar_legend', ['types' => $this->types_model->getTypesAsArray()], true);
         $this->load->view('calendar/collaborators', $data);
         $this->load->view('templates/footer');
     }
@@ -159,6 +168,8 @@ class Calendar extends CI_Controller {
             $data['department'] = $department[0]['name'];
             $this->load->view('templates/header', $data);
             $this->load->view('menu/index', $data);
+            $this->load->model('types_model');
+            $data['legend'] = $this->load->view('templates/calendar_legend', ['types' => $this->types_model->getTypesAsArray()], true);
             $this->load->view('calendar/department', $data);
             $this->load->view('templates/footer');
         }
@@ -191,6 +202,8 @@ class Calendar extends CI_Controller {
             $data['help'] = $this->help->create_help_link('global_link_doc_page_calendar_organization');
             $this->load->view('templates/header', $data);
             $this->load->view('menu/index', $data);
+            $this->load->model('types_model');
+            $data['legend'] = $this->load->view('templates/calendar_legend', ['types' => $this->types_model->getTypesAsArray()], true);
             $this->load->view('calendar/organization', $data);
             $this->load->view('templates/footer');
         }
@@ -280,6 +293,8 @@ class Calendar extends CI_Controller {
             $data['help'] = $this->help->create_help_link('global_link_doc_page_calendar_tabular');
             $this->load->view('templates/header', $data);
             $this->load->view('menu/index', $data);
+            $this->load->model('types_model');
+            $data['legend'] = $this->load->view('templates/calendar_legend_tabs', ['types' => $this->types_model->getTypesAsArray()], true);
             $this->load->view('calendar/tabular', $data);
             $this->load->view('templates/footer');
         }
