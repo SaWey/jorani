@@ -25,12 +25,14 @@ $lang['leavetypes_popup_create_title'] = 'បន្ថែមការឈប់�
 $lang['leavetypes_popup_create_button_cancel'] = 'បោះបង់';
 $lang['leavetypes_popup_create_button_create'] = 'បង្កើត';
 $lang['leavetypes_popup_create_field_name'] = 'ឈ្មោះ';
+$lang['leavetypes_popup_create_field_color'] = 'Color';
 $lang['leavetypes_popup_create_flash_msg'] = 'ស្លឹកបង្កេីតដោយជោគជ័យ';
 
 $lang['leavetypes_popup_update_title'] = 'កែសម្រួលប្រភេទឈប់សំរាក';
 $lang['leavetypes_popup_update_button_cancel'] = 'បោះបង់';
 $lang['leavetypes_popup_update_button_update'] = 'ធ្វើអោយទាន់សម័យ';
 $lang['leavetypes_popup_update_field_name'] = 'ឈ្មោះ';
+$lang['leavetypes_popup_update_field_color'] = 'Color';
 $lang['leavetypes_popup_update_flash_msg'] = 'ប្រភេទឈប់សម្រាកបានធ្វើអោយទាន់សម័យដោយជោគជ័យ';
 
 $lang['leavetypes_popup_delete_title'] = 'លុបចេញពីទម្រង់ដើម';
@@ -45,3 +47,4 @@ $lang['leavetypes_popup_delete_flash_forbidden'] = 'អ្នកមិនអា�
 $lang['leavetypes_type_export_title'] = 'ប្រភេទនៃការសុំច្បាប់';
 $lang['leavetypes_type_export_thead_id'] = 'លេខអត្តសញ្ញាណ';
 $lang['leavetypes_type_export_thead_name'] = 'ឈ្មោះ';
+$lang['leavetypes_type_export_thead_color'] = 'Color';

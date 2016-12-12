@@ -16,10 +16,7 @@
 <p><?php echo lang('calendar_collaborators_description');?></p>
 
 <div class="row-fluid">
-    <div class="span2"><span class="label"><?php echo lang('Planned');?></span></div>
-    <div class="span2"><span class="label label-success"><?php echo lang('Accepted');?></span></div>
-    <div class="span2"><span class="label label-warning"><?php echo lang('Requested');?></span></div>
-    <div class="span2"><span class="label label-important" style="background-color: #ff0000;"><?php echo lang('Rejected');?></span></div>
+    <?php echo $legend; ?>
     <div class="span4">
         <?php if ($this->config->item('ics_enabled') == FALSE) {?>
         &nbsp;

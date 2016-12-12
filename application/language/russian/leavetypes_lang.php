@@ -25,12 +25,14 @@ $lang['leavetypes_popup_create_title'] = 'Добавить тип отпуска
 $lang['leavetypes_popup_create_button_cancel'] = 'Отмена';
 $lang['leavetypes_popup_create_button_create'] = 'Создать';
 $lang['leavetypes_popup_create_field_name'] = 'Имя';
+$lang['leavetypes_popup_create_field_color'] = 'Color';
 $lang['leavetypes_popup_create_flash_msg'] = 'Тип отпуска успешно создан.';
 
 $lang['leavetypes_popup_update_title'] = 'Редактировать тип отпуска';
 $lang['leavetypes_popup_update_button_cancel'] = 'Отмена';
 $lang['leavetypes_popup_update_button_update'] = 'Обновить';
 $lang['leavetypes_popup_update_field_name'] = 'Имя';
+$lang['leavetypes_popup_update_field_color'] = 'Color';
 $lang['leavetypes_popup_update_flash_msg'] = 'Тип отпуска был успешно обновлен.';
 
 $lang['leavetypes_popup_delete_title'] = 'Удалить тип отпуска';
@@ -45,3 +47,4 @@ $lang['leavetypes_popup_delete_flash_forbidden'] = 'Вы не можете уд�
 $lang['leavetypes_type_export_title'] = 'Типы отпусков';
 $lang['leavetypes_type_export_thead_id'] = 'ID';
 $lang['leavetypes_type_export_thead_name'] = 'Имя';
+$lang['leavetypes_type_export_thead_color'] = 'Color';

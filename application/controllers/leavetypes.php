@@ -78,7 +78,10 @@ class LeaveTypes extends CI_Controller {
         $data['title'] = lang('leavetypes_popup_update_title');
         $data['leavetypes'] = $this->types_model->getTypes();
         $data['id'] = $id;
-        $data['type_name'] = $this->types_model->getName($id);
+        $all_types_assoc = $this->types_model->getTypesAsArray();
+        $data['type_name'] = $all_types_assoc[$id]['name'];
+        $data['type_color'] = $all_types_assoc[$id]['color'];
+
         $this->form_validation->set_rules('name', lang('leavetypes_popup_update_field_name'), 'required|strip_tags');
         
         if ($this->form_validation->run() === FALSE) {

@@ -67,10 +67,7 @@
 </div>
 
 <div class="row-fluid">
-    <div class="span3"><span class="label"><?php echo lang('Planned');?></span></div>
-    <div class="span3"><span class="label label-success"><?php echo lang('Accepted');?></span></div>
-    <div class="span3"><span class="label label-warning"><?php echo lang('Requested');?></span></div>
-    <div class="span3">&nbsp;</div>
+    <?php echo $legend; ?>
 </div>
 
 <?php if (count($tabular) > 0) {?>
@@ -132,87 +129,36 @@
       <td><?php echo $employee->name; ?></td>
       <?php foreach ($employee->days as $day) {
           $dayIterator++;
-          $overlapping = FALSE;
-          if (strstr($day->display, ';')) {
-              $periods = explode(";", $day->display);
-              $statuses = explode(";", $day->status);
-                switch (intval($statuses[1]))
-                {
-                    case 1: $class = "planned"; break;  // Planned
-                    case 2: $class = "requested"; break;  // Requested
-                    case 3: $class = "accepted"; break;  // Accepted
-                    case 4: $class = "rejected"; break;  // Rejected
-                    case 5: $class="dayoff"; break;
-                    case 6: $class="dayoff"; break;
-                }
-                switch (intval($statuses[0]))
-                {
-                    case 1: $class .= "planned"; break;  // Planned
-                    case 2: $class .= "requested"; break;  // Requested
-                    case 3: $class .= "accepted"; break;  // Accepted
-                    case 4: $class .= "rejected"; break;  // Rejected
-                    case 5: $class .="dayoff"; break;
-                    case 6: $class .="dayoff"; break;
-                }
-                //If we have two requests the same day (morning/afternoon)
-                if (($statuses[0] == $statuses[1]) && ($periods[0] != $periods[1])){
-                    switch (intval($statuses[0]))
-                    {
-                        case 1: $class = "allplanned"; break;  // Planned
-                        case 2: $class = "allrequested"; break;  // Requested
-                        case 3: $class = "allaccepted"; break;  // Accepted
-                        case 4: $class = "allrejected"; break;  // Rejected
-                        //The 2 cases below would be weird...
-                        case 5: $class ="dayoff"; break;
-                        case 6: $class ="dayoff"; break;
-                    }
-                }
-          } else {
-            switch ($day->display) {
-                case '9': $class="error"; break;
-                case '0': $class="working"; break;
-                case '4': $class="dayoff"; break;
-                case '5': $class="amdayoff"; break;
-                case '6': $class="pmdayoff"; break;
-                case '1':
-                      switch ($day->status)
-                      {
-                          case 1: $class = "allplanned"; break;  // Planned
-                          case 2: $class = "allrequested"; break;  // Requested
-                          case 3: $class = "allaccepted"; break;  // Accepted
-                          case 4: $class = "allrejected"; break;  // Rejected
-                      }
-                      break;
-                case '2':
-                    switch ($day->status)
-                      {
-                          case 1: $class = "amplanned"; break;  // Planned
-                          case 2: $class = "amrequested"; break;  // Requested
-                          case 3: $class = "amaccepted"; break;  // Accepted
-                          case 4: $class = "amrejected"; break;  // Rejected
-                      }
-                    break;
-                case '3':
-                    switch ($day->status)
-                      {
-                          case 1: $class = "pmplanned"; break;  // Planned
-                          case 2: $class = "pmrequested"; break;  // Requested
-                          case 3: $class = "pmaccepted"; break;  // Accepted
-                          case 4: $class = "pmrejected"; break;  // Rejected
-                      }
-                    break;
-            }
+          $color_divs = [];
+          switch($day->display){
+              case '0': $class="working"; break;
+              case '4': $class="dayoff"; break;
+              case '9': $class="error"; break;
+              //case '1':
+              //case '2':
+              //case '3':
+              //case '5':
+              //case '6':
+              default:
+                  $class="";
+                  break;
           }
-          
-          //Detect overlapping cases
-          if (substr_count($day->display, ";") > 1) $overlapping = TRUE;
-          switch ($class) {
-                    case "plannedplanned":
-                    case "requestedrequested":
-                    case "acceptedaccepted":
-                    case "rejectedrejected":
-                        $overlapping = TRUE;
-              break;
+
+          switch($day->am->status){
+              case 1: $color_divs[] = 'amplanned';  break;  // Planned
+              case 2: $color_divs[] = 'amrequested'; break;  // Requested
+              case 3: $color_divs[] = 'amaccepted';  break;  // Accepted
+              case 4: $color_divs[] = 'amrejected'; break;  // Rejected
+              case 5: $color_divs[] = 'amdayoff';  break;  // Day off
+              default: break;
+          }
+          switch($day->pm->status){
+              case 1: $color_divs[] = 'pmplanned'; break;  // Planned
+              case 2: $color_divs[] = 'pmrequested';  break;  // Requested
+              case 3: $color_divs[] = 'pmaccepted'; break;  // Accepted
+              case 4: $color_divs[] = 'pmrejected';  break;  // Rejected
+              case 6: $color_divs[] = 'pmdayoff'; break;  // Day off
+              default: break;
           }
           
           // Current day class
@@ -223,14 +169,34 @@
             if ($class == "error"){
                 echo '<td><img src="'.  base_url() .'assets/images/date_error.png"></td>';
             } else {
-                if ($overlapping) {
-                    echo '<td title="' . $day->type . '" class="' . $class . '"><img src="' . base_url() . 'assets/images/date_error.png"></td>';
-                } else {
-                    echo '<td title="' . $day->type . '" class="' . $class . '">&nbsp;</td>';
+                $type_color = '';
+                $type_title = '';
+                if(property_exists($day->am, 'type_id')){
+                    $type_color = "<div class='type_color_legend am_type_{$day->am->type_id}'></div>";
+                    $type_title = $day->am->type;
                 }
+                if(property_exists($day->pm, 'type_id')){
+                    $type_color .= "<div class='type_color_legend pm_type_{$day->pm->type_id}'></div>";
+                    if($type_title == ''){
+                        $type_title = $day->pm->type;
+                    }else if($type_title != $day->pm->type){
+                        $type_title .= '; ' . $day->pm->type;
+                    }
+                }
+                if($type_title == '' && $day->type != ''){
+                    $type_title = $day->type;
+                }
+                $type_title =  ($type_title != '') ? 'title="'.$type_title.'"':'';
+
+                $divs = '';
+                foreach ($color_divs as $class_name){
+                    $divs .= "<div class='status_color_legend {$class_name}'></div>";
+                }
+                $divs .= $type_color;
+                $divs = ($divs == '')? '&nbsp;' : $divs;
+                echo "<td {$type_title} class='tabday {$class}'>{$divs}</td>";
             }
-            ?>
-    <?php } ?>
+         } ?>
           </tr>
     <?php      
     if (++$repeater>=10) {

@@ -15,17 +15,12 @@ $currentDay = (int)date('d');
 <h2><?php echo lang('calendar_year_title');?>&nbsp;<span class="muted">(<?php echo $employee_name;?>)</span>&nbsp;<?php echo $help;?></h2>
 
 <div class="row-fluid">
-    <div class="span4">
-        <span class="label"><?php echo lang('Planned');?></span>&nbsp;
-        <span class="label label-success"><?php echo lang('Accepted');?></span>&nbsp;
-        <span class="label label-warning"><?php echo lang('Requested');?></span>&nbsp;
-        <span class="label label-important" style="background-color: #ff0000;"><?php echo lang('Rejected');?></span>
-    </div>
-    <div class="span4">
-        <a href="<?php echo base_url();?>calendar/year/export/<?php echo $employee_id;?>/<?php echo ($year);?>" class="btn btn-primary"><i class="fa fa-file-excel-o"></i>&nbsp;<?php echo lang('calendar_year_button_export');?></a>
+    <div class="span8">
+        <?php echo $legend; ?>
     </div>
     <div class="span4">
         <div class="pull-right">
+            <a href="<?php echo base_url();?>calendar/year/export/<?php echo $employee_id;?>/<?php echo ($year);?>" class="btn btn-primary"><i class="fa fa-file-excel-o"></i>&nbsp;<?php echo lang('calendar_year_button_export');?></a>
             <a href="<?php echo base_url();?>calendar/year/<?php echo $employee_id;?>/<?php echo ($year - 1);?>" class="btn btn-primary"><i class="icon-chevron-left icon-white"></i></a>
             <?php echo $year;?>
             <a href="<?php echo base_url();?>calendar/year/<?php echo $employee_id;?>/<?php echo ($year + 1);?>" class="btn btn-primary"><i class="icon-chevron-right icon-white"></i></a>
@@ -33,15 +28,11 @@ $currentDay = (int)date('d');
     </div>
 </div>
 
-<div class="row-fluid">
-
-</div>
-
 <div class="row-fluid"><div class="span12">&nbsp;</div></div>
 
 <div class="row-fluid">
     <div class="span12">
-<table class="table table-bordered table-condensed">
+<table class="table table-bordered">
     <thead>
         <tr>
             <td>&nbsp;</td>
@@ -60,103 +51,84 @@ $currentDay = (int)date('d');
 
   ?>
     <tr>
-      <td rowspan="2"<?php echo $isCurrentMonth ?' class="currentday-bg"':'';?>><?php echo $month_name; ?></td>
+      <td <?php echo $isCurrentMonth ?' class="currentday-bg"':'';?>><?php echo $month_name; ?></td>
         <?php //Iterate so as to display all mornings
         $pad_day = 1;
         foreach ($month->days as $dayNumber => $day) {
             $isCurrentDay = $isCurrentYear && $isCurrentMonth && $currentDay === $dayNumber;
             $class = '';
+            $color_divs = [];
+            switch($day->display){
+                case '0': $class="working"; break;
+                case '4': $class="dayoff"; break;
+                case '9': $class="error"; break;
+                //case '1':
+                //case '2':
+                //case '3':
+                //case '5':
+                //case '6':
+                default:
+                    $class="";
+                    break;
+            }
+
+            switch($day->am->status){
+                case 1: $color_divs[] = 'amplanned';  break;  // Planned
+                case 2: $color_divs[] = 'amrequested'; break;  // Requested
+                case 3: $color_divs[] = 'amaccepted';  break;  // Accepted
+                case 4: $color_divs[] = 'amrejected'; break;  // Rejected
+                case 5: $color_divs[] = 'amdayoff';  break;  // Day off
+                default: break;
+            }
+            switch($day->pm->status){
+                case 1: $color_divs[] = 'pmplanned'; break;  // Planned
+                case 2: $color_divs[] = 'pmrequested';  break;  // Requested
+                case 3: $color_divs[] = 'pmaccepted'; break;  // Accepted
+                case 4: $color_divs[] = 'pmrejected';  break;  // Rejected
+                case 6: $color_divs[] = 'pmdayoff'; break;  // Day off
+                default: break;
+            }
+
             if($isCurrentDay){
                 $class .= ' currentday-border';
             }
-            
-            if (strstr($day->display, ';')) {//Two statuses in the cell
-                $periods = explode(";", $day->display);
-                $statuses = explode(";", $day->status);
-                $types = explode(";", $day->type);
-                if (($periods[0] == 1) || ($periods[0] == 2) || ($periods[0] == 4) || ($periods[0] == 5)) {
-                    $display = $periods[0];
-                    $status = $statuses[0];
-                    $type = $types[0];
-                } else {
-                    $display = $periods[1];
-                    $status = $statuses[1];
-                    $type = $types[1];   
-                }
+
+            if ($class == "error"){
+                echo '<td><img src="'.  base_url() .'assets/images/date_error.png"></td>';
             } else {
-                $display = $day->display;
-                $status = $day->status;
-                $type = $day->type;
-            }
-            //0 - Working day  _
-            //1 - All day           []
-            //2 - Morning        |\
-            //3 - Afternoon      /|
-            //4 - All Day Off       []
-            //5 - Morning Day Off   |\
-            //6 - Afternoon Day Off /|
-            //9 - Error in start/end types
-            if ($display == 9) echo '<td'.($class?' class="'.$class.'"':'').'><img src="'.  base_url() .'assets/images/date_error.png"></td>';
-            if ($display == 0) echo '<td'.($class?' class="'.$class.'"':'').'>&nbsp;</td>';
-            if ($display == 3 || $display == 6) echo '<td'.($class?' '.$class:'').'>&nbsp;</td>';
-            if ($display == 4 || $display == 5) echo '<td title="' . $type .'" class="dayoff'.($class?' '.$class:'').'">&nbsp;</td>';
-            if ($display == 1 || $display == 2) {
-                switch ($status)
-                {
-                  case 1: echo '<td title="' . $type .'" class="allplanned'.($class?' '.$class:'').'">&nbsp;</td>'; break;  // Planned
-                  case 2: echo '<td title="' . $type .'" class="allrequested'.($class?' '.$class:'').'">&nbsp;</td>'; break;  // Requested
-                  case 3: echo '<td title="' . $type .'" class="allaccepted'.($class?' '.$class:'').'">&nbsp;</td>'; break;  // Accepted
-                  case 4: echo '<td title="' . $type .'" class="allrejected'.($class?' '.$class:'').'">&nbsp;</td>'; break;  // Rejected
+                $type_color = '';
+                $type_title = '';
+                if(property_exists($day->am, 'type_id')){
+                    $type_color = "<div class='type_color_legend am_type_{$day->am->type_id}'></div>";
+                    $type_title = $day->am->type;
                 }
+                if(property_exists($day->pm, 'type_id')){
+                    $type_color .= "<div class='type_color_legend pm_type_{$day->pm->type_id}'></div>";
+                    if($type_title == ''){
+                        $type_title = $day->pm->type;
+                    }else if($type_title != $day->pm->type){
+                        $type_title .= '; ' . $day->pm->type;
+                    }
+                }
+                if($type_title == '' && $day->type != ''){
+                    $type_title = $day->type;
+                }
+                $type_title =  ($type_title != '') ? 'title="'.$type_title.'"':'';
+
+                $divs = '';
+                foreach ($color_divs as $class_name){
+                    $divs .= "<div class='status_color_legend {$class_name}'></div>";
+                }
+                $divs .= $type_color;
+                $divs = ($divs == '')? '&nbsp;' : $divs;
+                echo "<td {$type_title} class='tabday {$class}'>{$divs}</td>";
             }
+
         $pad_day++;
         } ?>
       <?php //Fill 
-      if ($pad_day <= 31) echo '<td colspan="' . (32 - $pad_day) . '" rowspan="2" style="background-color:#00FFFF;">&nbsp;</td>';
+      if ($pad_day <= 31) echo '<td colspan="' . (32 - $pad_day) . '" style="background-color:#00FFFF;">&nbsp;</td>';
         ?>
-    </tr>
-    <tr>
-        <?php //Iterate so as to display all afternoons
-        foreach ($month->days as $dayNumber => $day) {
-          
-            $isCurrentDay =  $isCurrentYear && $isCurrentMonth && $currentDay === $dayNumber;
-            $class = '';
-            if($isCurrentDay){
-                $class .= ' currentday-border';
-            }
-            
-            if (strstr($day->display, ';')) {//Two statuses in the cell
-                $periods = explode(";", $day->display);
-                $statuses = explode(";", $day->status);
-                $types = explode(";", $day->type);
-                if (($periods[0] == 1) || ($periods[0] == 3) || ($periods[0] == 4) || ($periods[0] == 6)) {
-                    $display = $periods[0];
-                    $status = $statuses[0];
-                    $type = $types[0];
-                } else {
-                    $display = $periods[1];
-                    $status = $statuses[1];
-                    $type = $types[1];   
-                }
-            } else {
-                $display = $day->display;
-                $status = $day->status;
-                $type = $day->type;
-            }
-            if ($display == 9) echo '<td'.($class?' class="'.$class.'"':'').'><img src="'.  base_url() .'assets/images/date_error.png"></td>';
-            if ($display == 0) echo '<td'.($class?' class="'.$class.'"':'').'>&nbsp;</td>';
-            if ($display == 2 || $display == 5) echo '<td'.($class?' class="'.$class.'"':'').'>&nbsp;</td>';
-            if ($display == 4 || $display == 6) echo '<td title="' . $type .'" class="dayoff'.($class?' '.$class:'').'">&nbsp;</td>';
-            if ($display == 1 || $display == 3) {
-                switch ($status)
-                {
-                  case 1: echo '<td title="' . $type .'" class="allplanned'.($class?' '.$class:'').'">&nbsp;</td>'; break;  // Planned
-                  case 2: echo '<td title="' . $type .'" class="allrequested'.($class?' '.$class:'').'">&nbsp;</td>'; break;  // Requested
-                  case 3: echo '<td title="' . $type .'" class="allaccepted'.($class?' '.$class:'').'">&nbsp;</td>'; break;  // Accepted
-                  case 4: echo '<td title="' . $type .'" class="allrejected'.($class?' '.$class:'').'">&nbsp;</td>'; break;  // Rejected
-                }
-            }
-      } ?>
     </tr>
   <?php } ?>
         <tr>

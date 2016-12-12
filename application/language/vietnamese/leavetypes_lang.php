@@ -25,12 +25,14 @@ $lang['leavetypes_popup_create_title'] = 'Thêm loại ngày nghỉ';
 $lang['leavetypes_popup_create_button_cancel'] = 'Hủy bỏ';
 $lang['leavetypes_popup_create_button_create'] = 'Khởi tạo';
 $lang['leavetypes_popup_create_field_name'] = 'Tên';
+$lang['leavetypes_popup_create_field_color'] = 'Color';
 $lang['leavetypes_popup_create_flash_msg'] = 'Loại ngày nghỉ được tạo thành công';
 
 $lang['leavetypes_popup_update_title'] = 'Sửa một loại ngày nghỉ';
 $lang['leavetypes_popup_update_button_cancel'] = 'Hủy bỏ';
 $lang['leavetypes_popup_update_button_update'] = 'Cập nhật';
 $lang['leavetypes_popup_update_field_name'] = 'Tên';
+$lang['leavetypes_popup_update_field_color'] = 'Color';
 $lang['leavetypes_popup_update_flash_msg'] = 'Loại ngày nghỉ được cập nhật thành công';
 
 $lang['leavetypes_popup_delete_title'] = 'Xóa loại ngày nghỉ';
@@ -45,3 +47,4 @@ $lang['leavetypes_popup_delete_flash_forbidden'] = 'Bạn không thể xóa lo�
 $lang['leavetypes_type_export_title'] = 'Loại ngày nghỉ';
 $lang['leavetypes_type_export_thead_id'] = 'ID';
 $lang['leavetypes_type_export_thead_name'] = 'Tên';
+$lang['leavetypes_type_export_thead_color'] = 'Color';

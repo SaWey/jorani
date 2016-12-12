@@ -25,12 +25,14 @@ $lang['leavetypes_popup_create_title'] = 'یک نوع مرخصی اضافه نم
 $lang['leavetypes_popup_create_button_cancel'] = 'لغو';
 $lang['leavetypes_popup_create_button_create'] = 'ایجاد';
 $lang['leavetypes_popup_create_field_name'] = 'نام';
+$lang['leavetypes_popup_create_field_color'] = 'Color';
 $lang['leavetypes_popup_create_flash_msg'] = 'نوع مرخصی موفقانه ایجاد گردید.';
 
 $lang['leavetypes_popup_update_title'] = 'ویرایش یک نوع مرخصی';
 $lang['leavetypes_popup_update_button_cancel'] = 'لغو';
 $lang['leavetypes_popup_update_button_update'] = 'به روزرسانی';
 $lang['leavetypes_popup_update_field_name'] = 'نام';
+$lang['leavetypes_popup_update_field_color'] = 'Color';
 $lang['leavetypes_popup_update_flash_msg'] = 'نوع مرخصی موفقانه به روزرسانی گردید.';
 
 $lang['leavetypes_popup_delete_title'] = 'حذف نوع مرخصی';
@@ -45,3 +47,4 @@ $lang['leavetypes_popup_delete_flash_forbidden'] = 'شما نمیتوانید ی
 $lang['leavetypes_type_export_title'] = 'انواع مرخصی ها';
 $lang['leavetypes_type_export_thead_id'] = 'شناسه';
 $lang['leavetypes_type_export_thead_name'] = 'نام';
+$lang['leavetypes_type_export_thead_color'] = 'Color';

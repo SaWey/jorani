@@ -24,12 +24,14 @@ $lang['leavetypes_popup_create_title'] = 'Add a leave type';
 $lang['leavetypes_popup_create_button_cancel'] = 'Cancel';
 $lang['leavetypes_popup_create_button_create'] = 'Create';
 $lang['leavetypes_popup_create_field_name'] = 'Name';
+$lang['leavetypes_popup_create_field_color'] = 'Color';
 $lang['leavetypes_popup_create_flash_msg'] = 'The leave type has been succesfully created.';
 
 $lang['leavetypes_popup_update_title'] = 'Edit a Leave type';
 $lang['leavetypes_popup_update_button_cancel'] = 'Cancel';
 $lang['leavetypes_popup_update_button_update'] = 'Update';
 $lang['leavetypes_popup_update_field_name'] = 'Name';
+$lang['leavetypes_popup_update_field_color'] = 'Color';
 $lang['leavetypes_popup_update_flash_msg'] = 'The leave type has been succesfully updated.';
 
 $lang['leavetypes_popup_delete_title'] = 'Delete Leave Type';
@@ -44,3 +46,4 @@ $lang['leavetypes_popup_delete_flash_forbidden'] = 'You cannot delete a leave ty
 $lang['leavetypes_type_export_title'] = 'Leave types';
 $lang['leavetypes_type_export_thead_id'] = 'ID';
 $lang['leavetypes_type_export_thead_name'] = 'Name';
+$lang['leavetypes_type_export_thead_color'] = 'Color';

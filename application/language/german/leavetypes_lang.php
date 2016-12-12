@@ -25,12 +25,14 @@ $lang['leavetypes_popup_create_title'] = 'Abwesenheitsart hinzufügen';
 $lang['leavetypes_popup_create_button_cancel'] = 'Abbrechen';
 $lang['leavetypes_popup_create_button_create'] = 'Erstellen';
 $lang['leavetypes_popup_create_field_name'] = 'Name';
+$lang['leavetypes_popup_create_field_color'] = 'Color';
 $lang['leavetypes_popup_create_flash_msg'] = 'Abwesenheitsart erfolgreich erstellt';
 
 $lang['leavetypes_popup_update_title'] = 'Abwesenheitsart bearbeiten';
 $lang['leavetypes_popup_update_button_cancel'] = 'Abbrechen';
 $lang['leavetypes_popup_update_button_update'] = 'Aktualisieren';
 $lang['leavetypes_popup_update_field_name'] = 'Name';
+$lang['leavetypes_popup_update_field_color'] = 'Color';
 $lang['leavetypes_popup_update_flash_msg'] = 'Abwesenheitsart erfolgreich aktualisiert';
 
 $lang['leavetypes_popup_delete_title'] = 'Abwesenheitsart löschen';
@@ -45,3 +47,4 @@ $lang['leavetypes_popup_delete_flash_forbidden'] = 'Abwesenheitsarten in Benutzu
 $lang['leavetypes_type_export_title'] = 'Abwesenheitsarten';
 $lang['leavetypes_type_export_thead_id'] = 'ID';
 $lang['leavetypes_type_export_thead_name'] = 'Name';
+$lang['leavetypes_type_export_thead_color'] = 'Color';
