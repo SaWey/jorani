@@ -178,7 +178,7 @@ if (!defined('CAL_GREGORIAN'))
  */
 function getStatusColor($status_id){
     $status_colors = [
-        1 => '#999',    // Planned
+        1 => '#999999',    // Planned
         2 => '#f89406', // Requested
         3 => '#468847', // Accepted
         4 => '#ff0000'  // Rejected
