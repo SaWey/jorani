@@ -149,11 +149,11 @@ $route['calendar/organization'] = 'calendar/organization';
 $route['calendar/department'] = 'calendar/department';
 $route['calendar/tabular'] = 'calendar/tabular';
 $route['calendar/tabular/(:num)/(:num)/(:num)/(:any)'] = 'calendar/tabular/$1/$2/$3/$4';
-$route['calendar/tabular/export/(:num)/(:num)/(:num)/(:any)'] = 'calendar/exportTabular/$1/$2/$3/$4';
+$route['calendar/tabular/export/(:num)/(:num)/(:num)/(:any)/(:any)'] = 'calendar/exportTabular/$1/$2/$3/$4/$5';
 $route['calendar/year/(:num)/(:num)'] = 'calendar/year/$1/$2';
 $route['calendar/year/(:num)'] = 'calendar/year/$1';
 $route['calendar/year'] = 'calendar/year';
-$route['calendar/year/export/(:num)/(:num)'] = 'calendar/exportYear/$1/$2';
+$route['calendar/year/export/(:num)/(:num)/(:any)'] = 'calendar/exportYear/$1/$2/$3';
 $route['calendar'] = 'calendar/individual';
 
 //_______________________________________________
