@@ -82,43 +82,21 @@ $dayBox =  array(
  );
 
 //Background colors for the calendar according to the leave status
+function createExcelCellStyle($color){
+    return [
+        'fill' => [
+            'type' => PHPExcel_Style_Fill::FILL_SOLID,
+            'color' => ['rgb' => str_replace('#', '', $color)]
+        ]
+    ];
+}
 $status_styles = [
-    1 => [
-        'fill' => [
-            'type' => PHPExcel_Style_Fill::FILL_SOLID,
-            'color' => ['rgb' => str_replace('#', '', getStatusColor(1))]
-        ]
-    ],
-    2 => [
-        'fill' => [
-            'type' => PHPExcel_Style_Fill::FILL_SOLID,
-            'color' => ['rgb' => str_replace('#', '', getStatusColor(2))]
-        ]
-    ],
-    3 => [
-        'fill' => [
-            'type' => PHPExcel_Style_Fill::FILL_SOLID,
-            'color' => ['rgb' => str_replace('#', '', getStatusColor(3))]
-        ]
-    ],
-    4 => [
-        'fill' => [
-            'type' => PHPExcel_Style_Fill::FILL_SOLID,
-            'color' => ['rgb' => str_replace('#', '', getStatusColor(4))]
-        ]
-    ],
-    5 => [
-        'fill' => [
-            'type' => PHPExcel_Style_Fill::FILL_SOLID,
-            'color' => ['rgb' => '000000']
-        ]
-    ],
-    6 => [
-        'fill' => [
-            'type' => PHPExcel_Style_Fill::FILL_SOLID,
-            'color' => ['rgb' => '000000']
-        ]
-    ]
+    1 => createExcelCellStyle(getStatusColor(1)),
+    2 => createExcelCellStyle(getStatusColor(2)),
+    3 => createExcelCellStyle(getStatusColor(3)),
+    4 => createExcelCellStyle(getStatusColor(4)),
+    5 => createExcelCellStyle('000000'),
+    6 => createExcelCellStyle('000000')
 ];
 
 $line = 10;
@@ -142,13 +120,24 @@ foreach ($tabular as $employee) {
             $sheet->getComment($col . ($line + 1))->getText()->createTextRun($day->type);
         }
 
-        if($day->am->status > 0 && $day->am->status < 7){
-            $sheet->getStyle($col . $line)->applyFromArray($status_styles[$day->am->status]);
-            $sheet->getComment($col . $line)->getText()->createTextRun($day->am->type);
-        }
-        if($day->pm->status > 0 && $day->pm->status < 7){
-            $sheet->getStyle($col . ($line + 1))->applyFromArray($status_styles[$day->pm->status]);
-            $sheet->getComment($col . ($line + 1))->getText()->createTextRun($day->pm->type);
+        if($use_status_colors){
+            if($day->am->status > 0 && $day->am->status < 7){
+                $sheet->getStyle($col . $line)->applyFromArray($status_styles[$day->am->status]);
+                $sheet->getComment($col . $line)->getText()->createTextRun($day->am->type);
+            }
+            if($day->pm->status > 0 && $day->pm->status < 7){
+                $sheet->getStyle($col . ($line + 1))->applyFromArray($status_styles[$day->pm->status]);
+                $sheet->getComment($col . ($line + 1))->getText()->createTextRun($day->pm->type);
+            }
+        }else{
+            if($day->am->status > 0 && $day->am->status < 7){
+                $sheet->getStyle($col . $line)->applyFromArray(createExcelCellStyle($types[$day->am->type_id]['color']));
+                $sheet->getComment($col . $line)->getText()->createTextRun($day->am->type);
+            }
+            if($day->pm->status > 0 && $day->pm->status < 7){
+                $sheet->getStyle($col . ($line + 1))->applyFromArray(createExcelCellStyle($types[$day->pm->type_id]['color']));
+                $sheet->getComment($col . ($line + 1))->getText()->createTextRun($day->pm->type);
+            }
         }
 
     }//day

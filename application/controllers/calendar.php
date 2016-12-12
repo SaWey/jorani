@@ -309,7 +309,7 @@ class Calendar extends CI_Controller {
      * @param bool $children If TRUE, includes children entity, FALSE otherwise
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function exportTabular($id=-1, $month=0, $year=0, $children=TRUE) {        
+    public function exportTabular($id=-1, $month=0, $year=0, $children=TRUE, $legend = 'status') {
         //Load the language file (the loaded language depends if it was called from the public view)
         if (($this->config->item('public_calendar') == TRUE) && (!$this->session->logged_in)) {
             $this->load->library('polyglot');;
@@ -327,6 +327,9 @@ class Calendar extends CI_Controller {
         $data['month'] = $month;
         $data['year'] = $year;
         $data['children'] = $children;
+        $this->load->model('types_model');
+        $data['types'] = $this->types_model->getTypesAsArray();
+        $data['use_status_colors'] = ($legend == 'status');
         $this->load->view('calendar/export_tabular', $data);
     }
     
@@ -337,7 +340,7 @@ class Calendar extends CI_Controller {
      * @param int $year Year number
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function exportYear($employee = 0, $year = 0) {
+    public function exportYear($employee = 0, $year = 0, $legend = 'status') {
         setUserContext($this);
         $this->lang->load('calendar', $this->language);
         $this->auth->checkIfOperationIsAllowed('organization_calendar');
@@ -362,6 +365,9 @@ class Calendar extends CI_Controller {
         $this->load->library('excel');
         $data['employee'] = $employee;
         $data['year'] = $year;
+        $this->load->model('types_model');
+        $data['types'] = $this->types_model->getTypesAsArray();
+        $data['use_status_colors'] = ($legend == 'status');
         $this->load->view('calendar/export_year', $data);
     }
 }
