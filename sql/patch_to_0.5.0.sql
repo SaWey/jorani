@@ -24,6 +24,8 @@ ALTER TABLE `overtime` MODIFY `duration` decimal(10,3) DEFAULT NULL;
 
 ALTER TABLE `types` ADD `color` VARCHAR(7) NOT NULL DEFAULT '468847';;
 
+ALTER TABLE `types` ADD `color` VARCHAR(7) NOT NULL DEFAULT '468847';;
+
 CREATE TABLE IF NOT EXISTS `leaves_history` (
   `id` int(11) NOT NULL,
   `startdate` date DEFAULT NULL,
